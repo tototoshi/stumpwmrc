@@ -1,0 +1,4 @@
+My configuration files for Stump Window Manager
+
+ - Place .stumpwmrc in $HOME/
+ - Place stumpwm.desktop in /usr/share/xsessions/stumpwm.desktop

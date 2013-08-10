@@ -1,0 +1,45 @@
+(in-package :stumpwm)
+
+(setf *mouse-focus-policy* :click) ;; :click, :ignore, :sloppy
+(setf *window-border-style* :thin)
+(setf *maxsize-border-width* 1)
+(setf *transient-border-width* 1)
+(setf *normal-border-width* 1)
+
+(defcommand chrome () ()
+                    (run-or-raise "chromium-browser" '(:instance "chromium-browser")))
+(define-key *root-map* (kbd "f") "chrome")
+
+(defcommand gnome-terminal () ()
+                    (run-or-raise "gnome-terminal" '(:instance "gnome-terminal")))
+(define-key *root-map* (kbd "c") "gnome-terminal")
+
+;; from simias
+(defun shift-windows-forward (frames win)
+  (when frames
+          (let ((frame (car frames)))
+                 (shift-windows-forward (cdr frames)
+                                        (frame-window frame))
+                 (when win
+                         (pull-window win frame)))))
+
+;; rotate windows
+;; push the window in the adjacent frame
+(defcommand rotate-windows () ()
+  (let* ((frames (group-frames (current-group)))
+           (win (frame-window (car (last frames)))))
+          (shift-windows-forward frames win)))
+
+(define-key *root-map* (kbd "C-Up") "move-window up")
+(define-key *root-map* (kbd "C-Left") "move-window left")
+(define-key *root-map* (kbd "C-Down") "move-window down")
+(define-key *root-map* (kbd "C-Right") "move-window right")
+(define-key *root-map* (kbd "C-f") "fullscreen")
+(define-key *root-map* (kbd "|") "hsplit")
+(define-key *root-map* (kbd "Delete") "repack-window-numbers")
+(define-key *root-map* (kbd "I") "show-window-properties")
+(define-key *root-map* (kbd "q") "rotate-windows")
+
+;; mode line
+;; (enable-mode-line (current-screen) (current-head) t)
+
