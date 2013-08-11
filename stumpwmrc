@@ -5,6 +5,8 @@
 (setf *maxsize-border-width* 1)
 (setf *transient-border-width* 1)
 (setf *normal-border-width* 1)
+(set-focus-color :red)
+(set-unfocus-color :white)
 
 (defcommand chrome () ()
                     (run-or-raise "chromium-browser" '(:instance "chromium-browser")))
